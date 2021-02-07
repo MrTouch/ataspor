@@ -1,5 +1,36 @@
 function Navigation({ activePage, logo }) {
 
+    const menuOpenIcon = document.getElementById("menuOpenIcon");
+    const menuClosedIcon = document.getElementById("menuClosedIcon");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    var navigationOpen = false;
+
+    var isHomeActive = activePage=="Home" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
+    var isMannschaftActive = activePage=="Mannschaft" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
+    var isGalleryActive = activePage=="Gallery" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
+    var isKalenderActive = activePage=="Kalender" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
+
+    const toggleNavIcon = () => {
+        navigationOpen = !navigationOpen;
+        if(!navigationOpen){
+            console.log(menuOpenIcon)
+            menuOpenIcon.classList.add("hidden");
+            menuOpenIcon.remove("block");
+            menuClosedIcon.classList.add("block");
+            menuClosedIcon.classList.remove("hidden"); 
+            mobileMenu.classList.add("hidden");
+            mobileMenu.classList.remove("block"); 
+        }else{
+            menuOpenIcon.classList.add("block");
+            menuOpenIcon.remove("hidden");
+            menuClosedIcon.classList.add("hidden");
+            menuClosedIcon.classList.remove("block"); 
+            mobileMenu.classList.add("block");
+            mobileMenu.classList.remove("hidden"); 
+        }
+    }
+   
     return (
         <nav className="bg-gray-800">
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -8,7 +39,7 @@ function Navigation({ activePage, logo }) {
                         {/*
                             <!-- Mobile menu button-->
                         */}
-                        <button onClick={function() { alert('click'); }} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
+                        <button onClick={(e)=> { toggleNavIcon(); } } className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>
                             {/*
                                 <!-- Icon when menu is closed. -->
@@ -18,7 +49,7 @@ function Navigation({ activePage, logo }) {
                                     Menu open: "hidden", Menu closed: "block"
                                 -->
                             */}
-                            <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <svg id="menuClosedIcon" className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                             {/*
@@ -29,23 +60,23 @@ function Navigation({ activePage, logo }) {
                                     Menu open: "block", Menu closed: "hidden"
                                 -->
                             */}
-                            <svg className="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <svg id="menuOpenIcon" className="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
                     <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex-shrink-0 flex items-center">
-                            <img className="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow" />
+                            <img className="block lg:hidden h-8 w-auto" src={logo} alt="Workflow" />
                             <img className="hidden lg:block h-8 w-auto" src={logo} alt="Workflow" />
                         </div>
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4">
                                 {/*<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->*/}
-                                <a href="/" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                                <a href="/mannschaften" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Mannschaften</a>
-                                <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
-                                <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Kalender</a>
+                                <a id="menuHome" href="/" className= {isHomeActive} >Home</a>
+                                <a id="menuMannschaft" href="/mannschaften" className={isMannschaftActive}>Mannschaften</a>
+                                <a id="menuGallery" href="#" className={isGalleryActive}>Gallery</a>
+                                <a id="menuKalender" href="#" className={isKalenderActive}>Kalender</a>
                             </div>
                         </div>
                     </div>
@@ -94,7 +125,7 @@ function Navigation({ activePage, logo }) {
                 Menu open: "block", Menu closed: "hidden"
             -->
             */}
-            <div className="hidden sm:hidden">
+            <div id="mobileMenu" className="hidden sm:hidden">
                 <div className="px-2 pt-2 pb-3 space-y-1">
                 {/*      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->*/}
                     <a href="#" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>

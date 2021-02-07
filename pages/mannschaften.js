@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Players from '../components/players'
+import Navigation from '../components/navigation'
 
 const client = require('contentful').createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
@@ -49,6 +50,7 @@ function Mannschaften() {
           type="text/css" 
         />
       </Head>
+      <Navigation activePage="Mannschaft"></Navigation>
       <h1>1. Mannschaft</h1>
       {players.length > 0
         ? players.map(p => (

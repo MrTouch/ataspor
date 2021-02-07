@@ -56,7 +56,7 @@ useEffect(() => {
       {console.log("settings 2",settings)}{
         settings.length > 0
         ? settings.map(p => (
-           <Navigation activePage="home" logo={p.fields.logo.fields.file.url} ></Navigation>
+           <Navigation activePage="Home" logo={p.fields.logo.fields.file.url} ></Navigation>
           ))
         : null}
       
