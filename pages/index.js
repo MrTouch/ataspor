@@ -17,11 +17,32 @@ function HomePage() {
     console.log(`Error getting Entries for ${contentType.name}.`)
   }
 
+  async function fetchSettingsEntries() {
+    const entries = await client.getEntries({
+    'content_type': 'settings'
+    })
+    if (entries.items) return entries.items
+    console.log(`Error getting Entries for ${contentType.name}.`)
+}
+
+const [settings, setImageSettingsLinks] = useState([])
+//useEffect hook retrieves posts on initial load.
+useEffect(() => {
+    async function getSettings() {
+    const allSettings = await fetchSettingsEntries()
+    console.log(allSettings);
+    setImageSettingsLinks([...allSettings])
+    }
+    getSettings()
+}, [])
+
   const [pages, setImageLinks] = useState([])
   //useEffect hook retrieves posts on initial load.
   useEffect(() => {
     async function getImageLinks() {
       const allPages = await fetchPageEntries()
+      console.log("allpages")
+      console.log(allPages)
       setImageLinks([...allPages])
     }
     getImageLinks()
@@ -31,26 +52,14 @@ function HomePage() {
     <>
       <Head>
         <title>Next.js + Contentful</title>
-        <link
-          rel="stylesheet"
-          href="https://css.zeit.sh/v1.css"
-          type="text/css" 
-        />
       </Head>
-      <Navigation></Navigation>
-      
-      {pages.length > 0
-        ? pages.map(p => (
-            <ImageLink
-              alt={p.fields.alt}
-              date={p.fields.date}
-              key={p.fields.title}
-              image={p.fields.image}
-              title={p.fields.title}
-              url={p.fields.url}
-            />
+      {console.log("settings 2",settings)}{
+        settings.length > 0
+        ? settings.map(p => (
+           <Navigation activePage="home" logo={p.fields.logo.fields.file.url} ></Navigation>
           ))
         : null}
+      
     </>
   )
 }
