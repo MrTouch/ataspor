@@ -8,6 +8,7 @@ const client = require('contentful').createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
 })
 
+
 function Mannschaften() {
   async function fetchPlayerEntries() {
     const entries = await client.getEntries({
@@ -17,7 +18,22 @@ function Mannschaften() {
     console.log(`Error getting Entries for ${contentType.name}.`)
   }
 
+  async function fetchSetting(){
+    // Fetch main setting
+    const setting = await client.getEntry("lcWwEXxr4F2hazOseLmgf")
+    // If nothing was found, return an empty object for props, or else there would
+    // be an error when Next tries to serialize an `undefined` value to JSON.
+    if (!setting) {
+      return {  }
+    }
+    return setting;
+      // Return the post as props
+     
+  }
+  
+
   const [players, setImageLinks] = useState([])
+  const [setting, setSetting] = useState([])
   //useEffect hook retrieves posts on initial load.
   useEffect(() => {
     async function getPlayers() {
@@ -25,8 +41,8 @@ function Mannschaften() {
       console.log(allPlayers);
       var teams = {MainTeam: [], SeniorTeam: []};
       allPlayers.forEach( player => {
-        console.log(player)
-        console.log(teams.MainTeam)
+        console.log(player);
+        console.log(teams.MainTeam);
         if(player.fields.mannschaft=="1. Mannschaft"){
             teams.MainTeam.push(player);
         }
@@ -37,6 +53,13 @@ function Mannschaften() {
     console.log(teams)
       setImageLinks([...allPlayers])
     }
+
+    async function getSetting(){
+      const setting = await fetchSetting();
+      
+      setSetting([setting])
+    }
+    getSetting()
     getPlayers()
   }, [])
 
@@ -44,13 +67,14 @@ function Mannschaften() {
     <>
       <Head>
         <title>Spieler</title>
-        <link
-          rel="stylesheet"
-          href="https://css.zeit.sh/v1.css"
-          type="text/css" 
-        />
       </Head>
-      <Navigation activePage="Mannschaft"></Navigation>
+      {
+        setting.length > 0
+        ? setting.map(s => (
+           <Navigation activePage="Mannschaft" logo={s.fields.logo.fields.file.url}></Navigation>
+          ))
+        : null
+      }
       <h1>1. Mannschaft</h1>
       {players.length > 0
         ? players.map(p => (

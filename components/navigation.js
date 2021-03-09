@@ -3,13 +3,16 @@ function Navigation({ activePage, logo }) {
     const menuOpenIcon = document.getElementById("menuOpenIcon");
     const menuClosedIcon = document.getElementById("menuClosedIcon");
     const mobileMenu = document.getElementById("mobileMenu");
+    const popupMenu = document.getElementById("popupMenu");
 
     var navigationOpen = false;
+    var toggleNavigationOpen = false;
 
     var isHomeActive = activePage=="Home" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
     var isMannschaftActive = activePage=="Mannschaft" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
     var isGalleryActive = activePage=="Gallery" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
     var isKalenderActive = activePage=="Kalender" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
+    var isUberunsActive = activePage=="Kalender" ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-white px-3 py-2 rounded-md text-sm font-medium';
 
     const toggleNavIcon = () => {
         navigationOpen = !navigationOpen;
@@ -30,7 +33,20 @@ function Navigation({ activePage, logo }) {
             mobileMenu.classList.remove("hidden"); 
         }
     }
-   
+    /* Toggle Menu  */
+    /*
+    const togglePopup = () => {
+        toggleNavigationOpen = !toggleNavigationOpen;
+        if(!toggleNavigationOpen){
+            popupMenu.classList.add("transform", "opacity-0" , "scale-95");
+            popupMenu.classList.remove("transform","opacity-100","scale-100")
+
+        }else{
+            popupMenu.classList.remove("transform", "opacity-0" , "scale-95");
+            popupMenu.classList.add("transform","opacity-100","scale-100")
+        }
+    }
+   */
     return (
         <nav className="bg-gray-800">
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -77,6 +93,7 @@ function Navigation({ activePage, logo }) {
                                 <a id="menuMannschaft" href="/mannschaften" className={isMannschaftActive}>Mannschaften</a>
                                 <a id="menuGallery" href="#" className={isGalleryActive}>Gallery</a>
                                 <a id="menuKalender" href="#" className={isKalenderActive}>Kalender</a>
+                                <a id="uberUns" href="#" className={isUberunsActive}>Kalender</a>
                             </div>
                         </div>
                     </div>
@@ -92,7 +109,7 @@ function Navigation({ activePage, logo }) {
                         {/*  <!-- Profile dropdown -->*/}
                         <div className="ml-3 relative">
                             <div>
-                                <button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-haspopup="true">
+                                <button  onClick={(e)=> { togglePopup(); } }  className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-haspopup="true">
                                     <span className="sr-only">Open user menu</span>
                                     <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                                 </button>
@@ -109,7 +126,7 @@ function Navigation({ activePage, logo }) {
                                 To: "transform opacity-0 scale-95"
                             -->
                             */}
-                            <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                            <div id="popupMenu" className="opacity-0 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 transition ease-out duration-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
                                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
                                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
